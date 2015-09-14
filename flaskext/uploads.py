@@ -211,7 +211,12 @@ def configure_uploads(app, upload_sets):
         config = config_for_set(uset, app, defaults)
         set_config[uset.name] = config
 
-    should_serve = any(s.base_url is None for s in set_config.itervalues())
+    try:
+        set_config_values = set_config.itervalues()
+    except AttributeError:
+        set_config_values = set_config.values()
+
+    should_serve = any(s.base_url is None for s in set_config_values)
     if using_blueprints:
         if '_uploads' not in app.blueprints and should_serve:
             app.register_blueprint(uploads_mod)
