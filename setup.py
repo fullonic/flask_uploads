@@ -25,8 +25,7 @@ setup(
     author_email='leafstormrush@gmail.com',
     description='Flexible and efficient upload handling for Flask',
     long_description=__doc__,
-    packages=['flaskext'],
-    namespace_packages=['flaskext'],
+    packages=['flask_uploads'],
     zip_safe=False,
     platforms='any',
     install_requires=[
