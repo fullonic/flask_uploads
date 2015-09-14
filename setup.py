@@ -17,7 +17,7 @@ from setuptools import setup
 
 
 setup(
-    name='Flask-Uploads',
+    name='flask_uploads',
     version='0.1.4',
     url='http://bitbucket.org/leafstorm/flask-uploads/',
     license='MIT',
