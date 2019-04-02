@@ -10,7 +10,7 @@ an `UploadSet` object and upload your files to it.
 """
 import os.path
 import posixpath
-from flask import current_app, Module, send_from_directory, abort, url_for
+from flask import current_app, send_from_directory, abort, url_for
 from itertools import chain
 from werkzeug import secure_filename, FileStorage
 try:
@@ -170,7 +170,7 @@ def config_for_set(uset, app, defaults=None):
         if uset.default_dest:
             # use the "default_dest" callable
             destination = uset.default_dest(app)
-        if destination is None: # still
+        if destination is None:  # still
             # use the default dest from the config
             if defaults['dest'] is not None:
                 using_defaults = True
@@ -230,6 +230,7 @@ class All(object):
     This type can be used to allow all extensions. There is a predefined
     instance named `ALL`.
     """
+
     def __contains__(self, item):
         return True
 
@@ -251,6 +252,7 @@ class AllExcept(object):
 
         AllExcept(SCRIPTS + EXECUTABLES)
     """
+
     def __init__(self, items):
         self.items = items
 
@@ -272,6 +274,7 @@ class UploadConfiguration(object):
     :param deny: A list of extensions to deny, even if they are in the
                  `UploadSet` extensions list.
     """
+
     def __init__(self, destination, base_url=None, allow=(), deny=()):
         self.destination = destination
         self.base_url = base_url
@@ -306,6 +309,7 @@ class UploadSet(object):
                          with the app, it should return the default upload
                          destination path for that app.
     """
+
     def __init__(self, name='files', extensions=DEFAULTS, default_dest=None):
         if not name.isalnum():
             raise ValueError("Name must be alphanumeric (no underscores)")
@@ -380,8 +384,8 @@ class UploadSet(object):
 
         :param ext: The extension to check, without the dot.
         """
-        return ((ext in self.config.allow) or
-                (ext in self.extensions and ext not in self.config.deny))
+        return ((ext in self.config.allow)
+                or (ext in self.extensions and ext not in self.config.deny))
 
     def save(self, storage, folder=None, name=None):
         """
@@ -457,6 +461,7 @@ if using_blueprints:
 else:
     uploads_mod = Module(__name__, name='_uploads', url_prefix='/_uploads')
 
+
 @uploads_mod.route('/<setname>/<path:filename>')
 def uploaded_file(setname, filename):
     config = current_app.upload_set_config.get(setname)
@@ -483,12 +488,13 @@ class TestingFileStorage(FileStorage):
     :param headers: Multipart headers as a `werkzeug.Headers`. The default is
                     `None`.
     """
+
     def __init__(self, stream=None, filename=None, name=None,
                  content_type='application/octet-stream', content_length=-1,
                  headers=None):
         FileStorage.__init__(self, stream, filename, name=name,
-            content_type=content_type, content_length=content_length,
-            headers=None)
+                             content_type=content_type, content_length=content_length,
+                             headers=None)
         self.saved = None
 
     def save(self, dst, buffer_size=16384):
